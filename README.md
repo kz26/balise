@@ -17,8 +17,17 @@ A portable, lightweight IP geolocation API/server
 
 ## API/Usage
 
-```/ip```: Return GeoIP data for the current IP address
+Results are returned in JSON format.
+
+```/ip```: Return GeoIP data for the current IP address    
 ```/ip/<IPv4 or IPv6 address>```: Return GeoIP data for the specified IP address
+
+Example
+```
+GET /ip/128.135.100.101
+
+{"country_name": "United States", "longitude": -87.60269927978516, "org": "University of Chicago", "asn": "AS160", "city": "Chicago", "postal_code": "60637", "country_code3": "USA", "time_zone": "America/Chicago", "region_name": "Illinois", "latitude": 41.780399322509766, "dma_code": 602, "country_code": "US", "metro_code": 602, "area_code": 773, "region": "IL"}
+```
 
 ## License
 
