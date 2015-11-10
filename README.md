@@ -7,6 +7,7 @@ A portable, lightweight IP geolocation API/server
 * Python 3.3+ or 2.x with ipaddress module
 * MaxMind Python GeoIP module
 * Flask 0.10.x+
+* MaxMind GeoIP or GeoLite Legacy City and Organization/ASN datasets (both IPv4 and IPv6)
 
 ## Installation and setup
 
@@ -26,7 +27,23 @@ Example
 ```
 GET /ip/128.135.100.101
 
-{"country_name": "United States", "longitude": -87.60269927978516, "org": "University of Chicago", "asn": "AS160", "city": "Chicago", "postal_code": "60637", "country_code3": "USA", "time_zone": "America/Chicago", "region_name": "Illinois", "latitude": 41.780399322509766, "dma_code": 602, "country_code": "US", "metro_code": 602, "area_code": 773, "region": "IL"}
+{
+  "country_name": "United States",
+  "longitude": -87.602699279785,
+  "org": "University of Chicago",
+  "asn": "AS160",
+  "city": "Chicago",
+  "postal_code": "60637",
+  "country_code3": "USA",
+  "time_zone": "America\/Chicago",
+  "region_name": "Illinois",
+  "latitude": 41.78039932251,
+  "dma_code": 602,
+  "country_code": "US",
+  "metro_code": 602,
+  "area_code": 773,
+  "region": "IL"
+}
 ```
 
 ## License
