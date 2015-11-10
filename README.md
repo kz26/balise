@@ -1,6 +1,6 @@
 # Balise
 
-A portable, lightweight IP geolocation API/server
+A portable, lightweight IPv4 and IPv6 geolocation API/server
 
 ## Requirements
 
