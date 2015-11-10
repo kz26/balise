@@ -5,9 +5,9 @@ A portable, lightweight, locally-hosted IPv4 and IPv6 geolocation API/server
 ## Requirements
 
 * Python 3.3+ or 2.x with ipaddress module
-* MaxMind Python GeoIP module
+* [MaxMind Python GeoIP Legacy module](https://github.com/maxmind/geoip-api-python)
 * Flask 0.10.x+
-* MaxMind GeoIP or GeoLite Legacy City and Organization/ASN datasets (both IPv4 and IPv6)
+* [MaxMind GeoIP or GeoLite Legacy City and Organization/ASN datasets (both IPv4 and IPv6)](https://dev.maxmind.com/geoip/legacy/geolite/)
 
 ## Installation and setup
 
