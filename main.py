@@ -22,7 +22,7 @@ GI_ORG_V6 = GeoIP.open(app.config['GEOIP_ORG_V6_PATH'], _open_mode)
 for x in (GI_CITY, GI_CITY_V6, GI_ORG, GI_ORG_V6):
 	x.set_charset(GeoIP.GEOIP_CHARSET_UTF8)
 
-@app.route('/ip/<ip_addr>')
+@app.route('/<ip_addr>')
 def lookup_ip(ip_addr):
 	try: 
 		ip = ipaddress.ip_address(ip_addr)
@@ -46,7 +46,7 @@ def lookup_ip(ip_addr):
 	return Response(json.dumps(r), mimetype='application/json')
 
 
-@app.route('/ip')
+@app.route('/')
 def lookup_self():
 	return lookup_ip(request.remote_addr)
 
