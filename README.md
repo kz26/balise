@@ -28,7 +28,7 @@ Results are returned in JSON format.
 
 Example
 ```
-GET /ip/128.135.100.101
+GET /128.135.100.101
 
 {
   "country_name": "United States",
