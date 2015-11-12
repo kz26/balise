@@ -16,12 +16,15 @@ A portable, lightweight, locally-hosted IPv4 and IPv6 geolocation API/server
 3. Adjust configuration in ```settings.cfg``` as appropriate
 4. ```python main.py``` or run using your favorite WSGI server
 
+If you have a reverse proxy setup, use ```main_rp.py``` instead as
+a WSGI entry point.
+
 ## API/Usage
 
 Results are returned in JSON format.
 
-```/ip```: Return GeoIP data for the current IP address    
-```/ip/<IPv4 or IPv6 address>```: Return GeoIP data for the specified IP address
+```/```: Return GeoIP data for the current IP address    
+```/<IPv4 or IPv6 address>```: Return GeoIP data for the specified IP address
 
 Example
 ```

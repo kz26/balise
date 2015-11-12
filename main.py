@@ -8,7 +8,7 @@ import ipaddress
 import json
 import re
 
-__version__ = '1.0.0'
+__version__ = '1.0.3'
 
 app = Flask(__name__)
 app.config.from_pyfile('settings.cfg')
@@ -40,7 +40,7 @@ def lookup_ip(ip_addr):
 		org = gi_org.name_by_addr_v6(ip.exploded)	
 	if org:
 		m = re.search(r'^(AS[0-9]+) (.+)$', org)
-		if m:
+		if m and isinstance(r, dict):
 			r['asn'] = m.group(1)
 			r['org'] = m.group(2)
 	return Response(json.dumps(r), mimetype='application/json')
