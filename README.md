@@ -12,7 +12,7 @@ A portable, lightweight, locally-hosted IPv4 and IPv6 geolocation API/server
 ## Installation and setup
 
 1. Create a virtualenv (highly recommended)
-2. Download datasets
+2. Download datasets (see [data/update.sh](data/update.sh))
 3. Adjust configuration in ```settings.cfg``` as appropriate
 4. ```python main.py``` or run using your favorite WSGI server
 
