@@ -16,8 +16,8 @@ A portable, lightweight, locally-hosted IPv4 and IPv6 geolocation API/server
 3. Adjust configuration in ```settings.cfg``` as appropriate
 4. ```python main.py``` or run using your favorite WSGI server
 
-If you have a reverse proxy setup, use ```main_rp.py``` instead as
-a WSGI entry point.
+If you will be running balise behind a reverse proxy, use ```main_rp.py``` instead as
+a WSGI entry point so that the client IP address is passed along properly.
 
 ## API/Usage
 
