@@ -43,6 +43,7 @@ def lookup_ip(ip_addr):
 		if m and isinstance(r, dict):
 			r['asn'] = m.group(1)
 			r['org'] = m.group(2)
+	r['ip'] = ip_addr
 	return Response(json.dumps(r), mimetype='application/json')
 
 
