@@ -34,6 +34,7 @@ GET /128.135.100.101
   "country_name": "United States",
   "longitude": -87.602699279785,
   "org": "University of Chicago",
+  "ip": "128.135.100.101",
   "asn": "AS160",
   "city": "Chicago",
   "postal_code": "60637",
