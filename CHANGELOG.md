@@ -1,3 +1,7 @@
+1.0.4 - 2017-02-22
+
+* Change default open mode to GEOIP_MEMORY_CACHE | GEOIP_CHECK_CACHE
+
 1.0.3 - 2015-11-12
 
 * isinstance() check to prevent possible 500 error

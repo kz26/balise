@@ -13,7 +13,7 @@ __version__ = '1.0.3'
 app = Flask(__name__)
 app.config.from_pyfile('settings.cfg')
 
-_open_mode = getattr(GeoIP, app.config['GEOIP_OPEN_MODE'])
+_open_mode = getattr(GeoIP, app.config['GEOIP_OPEN_MODE']) | GeoIP.GEOIP_CHECK_CACHE
 GI_CITY = GeoIP.open(app.config['GEOIP_CITY_PATH'], _open_mode) 
 GI_CITY_V6 = GeoIP.open(app.config['GEOIP_CITY_V6_PATH'], _open_mode) 
 GI_ORG = GeoIP.open(app.config['GEOIP_ORG_PATH'], _open_mode) 
