@@ -2,55 +2,61 @@
 
 from flask import Flask, Response, abort, request
 
-import GeoIP
+import geoip2.database
+import geoip2.errors
+import maxminddb
 
 import ipaddress
 import json
 import re
 
-__version__ = '1.0.3'
+__version__ = '2.0.0'
 
 app = Flask(__name__)
 app.config.from_pyfile('settings.cfg')
 
-_open_mode = getattr(GeoIP, app.config['GEOIP_OPEN_MODE']) | GeoIP.GEOIP_CHECK_CACHE
-GI_CITY = GeoIP.open(app.config['GEOIP_CITY_PATH'], _open_mode) 
-GI_CITY_V6 = GeoIP.open(app.config['GEOIP_CITY_V6_PATH'], _open_mode) 
-GI_ORG = GeoIP.open(app.config['GEOIP_ORG_PATH'], _open_mode) 
-GI_ORG_V6 = GeoIP.open(app.config['GEOIP_ORG_V6_PATH'], _open_mode) 
-
-for x in (GI_CITY, GI_CITY_V6, GI_ORG, GI_ORG_V6):
-	x.set_charset(GeoIP.GEOIP_CHARSET_UTF8)
+_open_mode = getattr(maxminddb, app.config['GEOIP2_OPEN_MODE']) | maxminddb.MODE_AUTO
+GI2_CITY = geoip2.database.Reader(app.config['GEOIP2_CITY_DB'], mode=_open_mode) 
+GI2_ASN = geoip2.database.Reader(app.config['GEOIP2_ASN_DB'], mode=_open_mode) 
 
 @app.route('/<ip_addr>')
 def lookup_ip(ip_addr):
-	try: 
-		ip = ipaddress.ip_address(ip_addr)
-	except ValueError:
-		abort(400)
-	if ip.version == 4:
-		gi_city = GI_CITY
-		gi_org = GI_ORG
-		r = gi_city.record_by_addr(ip.exploded)
-		org = gi_org.name_by_addr(ip.exploded)	
-	else:
-		gi_city = GI_CITY_V6
-		gi_org = GI_ORG_V6
-		r = gi_city.record_by_addr_v6(ip.exploded)
-		org = gi_org.name_by_addr_v6(ip.exploded)	
-	if org:
-		m = re.search(r'^(AS[0-9]+) (.+)$', org)
-		if m and isinstance(r, dict):
-			r['asn'] = m.group(1)
-			r['org'] = m.group(2)
-	r['ip'] = ip_addr
-	return Response(json.dumps(r), mimetype='application/json')
+    try: 
+        ip = ipaddress.ip_address(ip_addr)
+    except ValueError:
+        abort(400)
+    try:
+        rc = GI2_CITY.city(ip.exploded)
+        rasn = GI2_ASN.asn(ip.exploded)
+    except geoip2.errors.AddressNotFoundError:
+        abort(404)
+    data = {}
+    data['ip'] = ip.exploded
+    data['city'] = rc.city.name
+    data['country'] = {
+        'name': rc.country.name,
+        'iso_code': rc.country.iso_code
+    }
+    data['region'] = {
+        'name': rc.subdivisions.most_specific.name,
+        'iso_code': rc.subdivisions.most_specific.iso_code
+    }
+    data['location'] = {
+        'latitude': rc.location.latitude,
+        'longitude': rc.location.longitude,
+        'metro_code': rc.location.metro_code,
+        'time_zone': rc.location.time_zone
+    }
+    data['postal_code'] = rc.postal.code
+    data['asn'] = rasn.autonomous_system_number
+    data['org'] = rasn.autonomous_system_organization
+    return Response(json.dumps(data), mimetype='application/json')
 
 
 @app.route('/')
 def lookup_self():
-	return lookup_ip(request.remote_addr)
+    return lookup_ip(request.remote_addr)
 
 
 if __name__ == '__main__':
-	app.run(host=app.config['HOST'], port=app.config['PORT'])
+    app.run(host=app.config['HOST'], port=app.config['PORT'])

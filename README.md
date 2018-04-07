@@ -2,19 +2,21 @@
 
 A portable, lightweight, locally-hosted IPv4 and IPv6 geolocation API/server
 
+***balise 2.x is designed to operate with MaxMind's GeoIP2/GeoLite 2 databases.
+For GeoIP Legacy/GeoLite Legacy support, use the balise 1.x branch.***
+
 ## Requirements
 
 * Python 3.3+ or 2.x with ipaddress module
-* [MaxMind Python GeoIP Legacy module](https://github.com/maxmind/geoip-api-python)
-* Flask 0.10.x+
-* [MaxMind GeoIP or GeoLite Legacy City and Organization/ASN datasets (both IPv4 and IPv6)](https://dev.maxmind.com/geoip/legacy/geolite/)
+* [MaxMind Python GeoIP2 module](https://geoip2.readthedocs.io/en/latest/)
+* [MaxMind GeoLite2 or GeoIP2 City and ASN databases](https://dev.maxmind.com/geoip/geoip2/geolite2/)
+* Flask 0.12.2+
 
 ## Installation and setup
 
 1. Create a virtualenv (highly recommended)
-2. Download datasets (see [data/update.sh](data/update.sh))
-3. Adjust configuration in ```settings.cfg``` as appropriate
-4. ```python main.py``` or run using your favorite WSGI server
+2. Adjust configuration in ```settings.cfg``` as appropriate
+3. ```python main.py``` or run using your favorite WSGI server
 
 If you will be running balise behind a reverse proxy, use ```main_rp.py``` instead as
 a WSGI entry point so that the client IP address is passed along properly.
@@ -23,31 +25,36 @@ a WSGI entry point so that the client IP address is passed along properly.
 
 Results are returned in JSON format.
 
-```/```: Return GeoIP data for the current IP address    
-```/<IPv4 or IPv6 address>```: Return GeoIP data for the specified IP address
+```/```: Return GeoIP data for the IP address that made the request 
+```/<IPv4 or IPv6 address>```: Return data for the specified IP address
 
 Example
+
 ```
 GET /128.135.100.101
 
 {
-  "country_name": "United States",
-  "longitude": -87.602699279785,
+  "region": {
+    "iso_code": "IL",
+    "name": "Illinois"
+  },
   "org": "University of Chicago",
-  "ip": "128.135.100.101",
-  "asn": "AS160",
   "city": "Chicago",
+  "country": {
+    "iso_code": "US",
+    "name": "United States"
+  },
   "postal_code": "60637",
-  "country_code3": "USA",
-  "time_zone": "America\/Chicago",
-  "region_name": "Illinois",
-  "latitude": 41.78039932251,
-  "dma_code": 602,
-  "country_code": "US",
-  "metro_code": 602,
-  "area_code": 773,
-  "region": "IL"
+  "location": {
+    "latitude": 41.7804,
+    "longitude": -87.6027,
+    "time_zone": "America\/Chicago",
+    "metro_code": 602
+  },
+  "asn": 160,
+  "ip": "128.135.100.101"
 }
+
 ```
 
 ## License

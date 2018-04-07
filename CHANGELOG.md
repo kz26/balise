@@ -1,3 +1,7 @@
+2.0.0 - 2018-04-07
+
+* Use GeoLite2 databases
+
 1.0.4 - 2017-02-22
 
 * Change default open mode to GEOIP_MEMORY_CACHE | GEOIP_CHECK_CACHE
